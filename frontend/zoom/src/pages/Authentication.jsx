@@ -150,6 +150,7 @@ export default function Authentication() {
        {error}
        </p>
       </Collapse>
+
       <Button type='submit' variant="contained" className='btnLogin'>{formState===false ? "LOGIN" : "SIGN UP"}</Button>
       
     </Box>
@@ -177,7 +178,5 @@ export default function Authentication() {
       />
       </Snackbar>
 
-    
     </div>
-  )
-}
+  )}

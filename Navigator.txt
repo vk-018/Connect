@@ -1,0 +1,145 @@
+                                 Navigator
+
+1. The Web API Navigator is a powerful tool that provides essential information about the user's browser and device.
+-> It plays a crucial role in web development, allowing developers to tailor their applications based on the capabilities of the user's environment
+-> The Navigator API is part of the Window interface and provides information about the browser and the operating system. It includes properties and methods that help developers understand the user's environment, 
+   such as the browser version, platform, and whether certain features are supported.
+
+
+#A Navigator object can be retrieved using the read-only window.navigator property.
+
+2. Key Properties of the Navigator API:-
+(i)- navigator.userAgent: This property returns the user agent string for the current browser. 
+    It contains information about the browser type, version, and the operating system.
+     ->console.log(navigator.userAgent);
+
+(ii)- navigator.platform: This property returns a string that represents the platform on which the browser is running, such as "Win32", "Linux x86_64", or "MacIntel".
+     ->console.log(navigator.platform);
+
+(iii)- navigator.language: This property returns the preferred language of the user, typically in the format of a language code (e.g., "en-US").
+      ->console.log(navigator.language);
+
+(iv) navigator.onLine: This boolean property indicates whether the browser is online. It can be useful for determining if the user has an internet connection.
+      -> console.log(navigator.onLine);
+
+(v)  navigator.geolocation: This property provides access to the Geolocation API, allowing developers to get the user's current location.
+      ->  if (navigator.geolocation) { 
+           navigator.geolocation.getCurrentPosition((position) => {
+            console.log(`Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`); 
+            }); }
+         else { console.log("Geolocation is not supported by this browser.");
+         } 
+
+egample use:
+function getUserLanguage() {
+    const language = navigator.language;
+    console.log(`Your preferred language is: ${language}`);
+}
+getUserLanguage();
+
+3. Used Property:-
+
+(i)- The mediaDevices read-only property of the Navigator interface returns a MediaDevices object, 
+     which provides access to connected media input devices like cameras and microphones, as well as screen sharing.
+(ii)- Returns a reference to a MediaDevices object which can then be used to get information about available media devices (MediaDevices.enumerateDevices()),
+     find out what constrainable properties are supported for media on the user's computer and user agent (MediaDevices.getSupportedConstraints()),
+     and to request access to media using MediaDevices.getUserMedia().
+
+4. how navigator works:-
+(i)- The navigator object is part of the Web API — specifically, the Navigator interface— which is implemented by the browser’s JavaScript runtime, not by JavaScript itself.
+(ii)- It is created automatically when the browser starts a new browsing context (tab or window).
+      Every tab gets its own window.navigator instance. 
+(iii)- Under the hood, it’s an instance of a C++/Rust object (depending on the browser engine) that exposes information from the operating system and device drivers through standardized properties and met
+
+| Concept             | Description                                                              |
+| ------------------- | ------------------------------------------------------------------------ |
+| **What it is**      | A browser-provided object giving access to device, browser, and OS info. |
+| **Who provides it** | The browser (not JavaScript).                                            |
+| **How it works**    | Acts as a bridge between JS and native OS APIs.                          |
+| **Security**        | Sandboxed, permission-based, HTTPS-only for sensitive APIs.              |
+
+
+5. Instance methods for mediadevices
+Inherits methods from its parent interface, EventTarget.
+
+enumerateDevices()
+Obtains an array of information about the media input and output devices available on the system.
+
+getSupportedConstraints()
+Returns an object conforming to MediaTrackSupportedConstraints indicating which constrainable properties are supported on the MediaStreamTrack interface. See Media Streams API to learn more about constraints and how to use them.
+
+getDisplayMedia()
+Prompts the user to select a display or portion of a display (such as a window) to capture as a MediaStream for sharing or recording purposes. Returns a promise that resolves to a MediaStream.
+
+getUserMedia()
+With the user's permission through a prompt, turns on a camera and/or a microphone on the system and provides a MediaStream containing a video track and/or an audio track with the input.
+
+selectAudioOutput() Experimental
+Prompts the user to select a specific audio output device.
+
+Events
+devicechange
+Fired when a media input or output device is attached to or removed from the user's computer.
+
+6 . Egample:-
+// Put variables in global scope to make them available to the browser console.
+const video = document.querySelector("video");            //This finds the first <video> tag in your HTML and stores it in the video variable so you can display the camera feed there later.
+
+const constraints = {             //These are media constraints that tell the browser what kind of media you want:
+  audio: false, 
+  video: true,        //we can use advance constraints like : video: { width: 1280, height: 720, facingMode: "user" }
+
+};
+//must pass atleast on constraints
+
+
+//navigator.mediaDevices is the entry point to camera/mic access.
+//getUserMedia() prompts the user for permission and returns a Promise that resolves to a MediaStream if allowed.
+
+
+navigator.mediaDevices
+  .getUserMedia(constraints)
+
+  .then((stream) => {
+    const videoTracks = stream.getVideoTracks();
+    console.log("Got stream with constraints:", constraints);
+    console.log(`Using video device: ${videoTracks[0].label}`);
+    stream.onremovetrack = () => {
+      console.log("Stream ended");
+    };
+    video.srcObject = stream;
+  })
+
+  //hnadling success:-
+| Line                                           | What it does                                                                                                                 |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `const videoTracks = stream.getVideoTracks();` | Gets an array of `MediaStreamTrack` objects representing the camera video feed.                                              |
+| `console.log(...)`                             | Logs info about the stream and which device it’s using.                                                                      |
+| `stream.onremovetrack`                         | Event listener that fires when the stream ends (e.g. if the user disables the camera).                                       |
+| `video.srcObject = stream;`                    | Assigns the camera stream to the `<video>` element — this is the magic line that displays your live camera feed in the page. |
+stream.getVideoTracks(); // returns array of video tracks
+stream.getAudioTracks(); // returns array of audio tracks
+
+
+
+  .catch((error) => {
+    if (error.name === "OverconstrainedError") {
+      console.error(
+        `The resolution ${constraints.video.width.exact}x${constraints.video.height.exact} px is not supported by your device.`,
+      );
+    } else if (error.name === "NotAllowedError") {
+      console.error(
+        "You need to grant this page permission to access your camera and microphone.",
+      );
+    } else {
+      console.error(`getUserMedia error: ${error.name}`, error);
+    }
+  });
+
+
+  //handling errors:-
+| Error name                 | Meaning                                                            |
+| -------------------------- | ------------------------------------------------------------------ |
+| **`OverconstrainedError`** | You asked for a resolution or setting your camera doesn’t support. |
+| **`NotAllowedError`**      | The user denied permission, or the page isn’t using HTTPS.         |
+| **Other errors**           | e.g. `NotFoundError` if there’s no camera attached.                |

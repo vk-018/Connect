@@ -86,21 +86,98 @@ all the values are different from fns already in use so use key:keyname str duri
 -> When you call router("/path"), it triggers a re-render and updates the browser’s URL without a full page reload — this is why it feels instant and smooth.
 
 
-15.  create 3rd component video meet:-
-(i)useRef: ChatGPT said:
--> In web development, particularly in React, the useRef hook is a special tool that lets you directly access 
-   and store a mutable reference to a DOM element or a value that persists between renders without causing re-renders.
--> const ref = useRef(initialValue);
+15.  create 3rd component video meet:-    [https://managedserver.eu/server-turn-stun-things-and-what-it%27s-for/]
 
-useRef() returns an object like:
-{ current: initialValue }
+# Stun server:-    [lt wt servers which returns the ip address of of the requesting devce ]
+(i)-Establishing direct communication between two devices over the Internet is far from trivial, especially due to NAT (Network Address Translation) and firewalls that protect private networks.
+    This is where two fundamental protocols come into play: STUN e TURN.
+(ii)- The Network address protocol:
+      it is essential to first analyze the main obstacle that hinders peer-to-peer communications on the modern Internet: the so-called NAT traversal, 
+      or overcoming the barriers imposed by NAT (Network Address Translation).
+(iii)-What is NAT and why is it used?
+    The technology NAT It is widely used in routers and network gateways to allow multiple devices within a local area network (LAN) to share a single public IP address. 
+    In practice, each device connected to the home or business network has a private IP (e.g., 192.168.1.x, 10.0.0.x), 
+    while the router performs address translation to present a single public IP to the outside world. 
+(iv) the lack of direct accessibilityFrom the perspective of an external client, a device behind NAT does not have a unique public identity, and the router does not know which host to 
+     forward any incoming requests to unless they have been preceded by an outgoing connection (as in the case of an HTTP request).
+(v)- This limitation is particularly problematic for applications that rely on peer-to-peer (P2P) connections, i.e., direct connections between two devices, without passing through intermediate servers. 
+(vii)-, both parties must be able to reach each other, and therefore need to know each other's public IP addresses and communication ports. However, if both devices are behind different NATs (a very common case these days), 
+     a direct connection becomes impossible without a mechanism that circumvents this obstacle.
 
-You can change ref.current anytime.
-Changing it does not trigger a re-render.
-The same ref object persists for the entire lifetime of the component.
+(viii)- A firewall can block incoming or outgoing connections on specific ports, preventing peer-to-peer traffic from flowing. Some firewalls are configured to block all UDP traffic, the preferred protocol for real-time communications, making connection stability even more difficult.
 
-(ii)- Stun server:-
+(ix)-STUN, Short for Session Traversal Utilities for NAT, is a lightweight and simple protocol that allows a device to determine its public IP address and the nature of the NAT protecting it.
+(x)-How does STUN work?
+    When a client wants to establish a connection with another peer, it sends a STUN request to a public STUN serverThis server responds with the IP address and port from which the request was received, which represent the client's public identity.
+    This information can then be shared with the other peer, hoping that both can establish a direct connection.
+
+(xi)- While STUN is extremely useful, it is not always sufficient. Some NAT types (particularly Symmetric NAT) and particularly restrictive firewalls prevent direct connections in any case. In these cases, peer-to-peer communication fails,
+      and a fallback mechanism is needed: and this is where TURN comes in.
+(xii)- TURN, Short for Traversal Using Relays around NAT, is a protocol that allows a client to send and receive data through a relay server located on the Internet
+(xiii)-Simply put, when direct connection between peers isn't possible, TURN acts as an intermediary, receiving packets from one peer and retransmitting them to the other. This ensures that communication can occur transparently, even if both devices are behind complicated NATs or restrictive firewalls.
+
+16. STUN and TURN in the WebRTC context:-
+
+WebRTC (Web Real-Time Communication) is a technology that allows browsers to communicate in real time using video, audio, and data. It is used by services such as Google Meet, Zoom, Jitsi, Discord, and many others. WebRTC natively implements the STUN and TURN protocols as part of its connection architecture.
+During the negotiation between two peers (the “signaling” phase), WebRTC uses a process called ICE (Interactive Connectivity Establishment) which tests various “candidate” connections between peers:
+
+Host candidates: direct connections on the local network.
+Server reflexive candidates: connections obtained via STUN.
+Relay candidates: connections via TURN server.
+
+The ICE algorithm dynamically selects the most efficient path. Only if the first two options fail does WebRTC use TURN.
 
 
+17. 
+(i)- Make the connections obj using use ref
+(ii)- our video call url will be base url/some meet id ,use slug in app.jsx to delare it
+(iii)- we will have two stages , one page wehre we take permissions , and then the meeting page
+(iv)- use video tag for vedio:-
+  ->The <video> tag is an HTML5 element that lets you embed and control video playback directly in the browser  
+    It’s part of the browser’s Media API, handled natively by the browser’s rendering engine and media subsystem.
 
+  ->Various attributes used withh it
+| Attribute          | Type                                         | Description                                                                               | Example                     |
+| ------------------ | -------------------------------------------- | ----------------------------------------------------------------------------------------- | --------------------------- |
+| `src`              | URL                                          | The video file to play                                                                    | `src="movie.mp4"`           |
+| `controls`         | Boolean                                      | Shows the browser’s play/pause UI                                                         | `controls`                  |
+| `autoplay`         | Boolean                                      | Starts playing automatically (requires `muted` in modern browsers)                        | `autoplay muted`            |
+| `muted`            | Boolean                                      | Starts muted                                                                              | `muted`                     |
+| `loop`             | Boolean                                      | Repeats when it ends                                                                      | `loop`                      |
+| `poster`           | URL                                          | Image shown before playback starts                                                        | `poster="thumbnail.jpg"`    |
+| `preload`          | `"none"`, `"metadata"`, `"auto"`             | Controls how much is loaded before playing                                                | `preload="metadata"`        |
+| `width` / `height` | Number                                       | Sets the video display size (not the file size)                                           | `width="640" height="360"`  |
+| `playsinline`      | Boolean                                      | On mobile, prevents fullscreen auto behavior                                              | `playsinline`               |
+| `crossOrigin`      | `"anonymous"`, `"use-credentials"`           | Needed if the video is from another domain and you want to access it via JS (e.g. canvas) | `crossorigin="anonymous"`   |
+| `controlsList`     | `"nodownload nofullscreen noremoteplayback"` | Restrict certain control buttons                                                          | `controlsList="nodownload"` |
 
+-> The ref (short for reference) attribute in React is a special prop that lets you get direct access to a DOM element (or a React component instance).
+-> It’s not for data flow (like props or state) — it’s for cases where you need to reach into the actual HTML element rendered by React.   (doument.selector("vidoe")  that is the dom eleemnt)
+
+(v)- define fn get permission then get msg then get user media , then start server then , and implement toggle also
+     -> also handle calling if usermediaSuccess
+(ii)- Lets come to the main part:-
+   -> Use of WebRTC:-
+   (i)- first stage we know is signalling   -> using socket   (this is not covered in webrtc huidelines)
+   (ii) itiating peer connection : using RTCPeerConnection
+       -> Each peer connection is handled by a RTCPeerConnection object. 
+       The constructor for this class takes a single RTCConfiguration object as its parameter. 
+       This object defines how the peer connection is set up and should contain information about the ICE servers to use.
+    (iii)- Once the RTCPeerConnection is created we need to create an SDP offer or answer, depending on if we are the calling peer or receiving peer. Once the SDP offer or answer is created,
+         it must be sent to the remote peer through a different channel. Passing SDP objects to remote peers is called signaling
+ -> exchnaging sdp (offers/answer completes signalling)
+
+   (iv)- then ice tricle that share some info to find best path for our peer connection
+   #Once ICE candidates are being received, we should expect the state for our peer connection will eventually change to a connected state
+
+   #note actually we can write the code for trickle ice abv offer negotiation code bcoz anyways ice candidate exchange wont start before local description is set during offer exchange
+   (v) start with media share   (actually media sharing shd start just after peer connection then ice trickle then sdp offer exchange)
+      -> transmit the media to remote peer using addTrack
+      -> recieve from them using ontrack
+
+connect to server fn is done...
+#update : get usermedia success wont be needed as tchanges made to track.enabled automatically updates all the peers
+          we can write custom black screen black silence  using canvas and audio context respectively
+18. now wrtie the ui part of username false
+   -> use positioning
+      

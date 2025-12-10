@@ -27,7 +27,7 @@ as well as to exchange arbitrary data between browsers without requiring an inte
 (ii)- it is primarily based on UDP
 (iii)- it is an open source protocol 
 (iv)- its Bi-Directional : sending and recieving both can be done through both the endpoints
-(v)- eleminate need of thirdy part apps
+(v)- eleminate need of third part apps
 
 #Video call without WebRTC:-
 (i) numerous clients(devices) are get connected to common server through the app
@@ -36,7 +36,7 @@ as well as to exchange arbitrary data between browsers without requiring an inte
 (iii)- this method is highly reliable but Slower
 
 #Video call with WebRTC:-
-(i)- After a certain point WebRtc establishes a direct connection btw two points,throufh which they can communicate
+(i)- After a certain point WebRtc establishes a direct connection btw two points,through which they can communicate
 (ii)- this method is Lag free.
 (iii)- so this will be preferred
 
@@ -89,3 +89,25 @@ as well as to exchange arbitrary data between browsers without requiring an inte
       ->he server bears heavy CPU usage (due to decoding, mixing, re-encoding).
       -> eg webinars  (large number of recievers)
 
+#https://webrtc.org/getting-started/peer-connections         imp...
+
+
+#app uses socket.io for signaling and WebRTC for direct media connections.
+
+8.Methods to use webrtc
+(i)- Overview:-
+    -> The WebRTC standard covers, on a high level, two different technologies: media capture devices and peer-to-peer connectivity.
+   ->Media capture devices includes video cameras and microphones, but also screen capturing "devices". For cameras and microphones, we use navigator.mediaDevices.getUserMedia() to capture MediaStreams. 
+       For screen recording, we use navigator.mediaDevices.getDisplayMedia() instead.
+    --> The peer-to-peer connectivity is handled by the RTCPeerConnection interface. This is the central point for establishing and controlling the connection between two peers in WebRTC.
+start with signallig depends on u how us implement it 
+
+(ii)- Initiating peer connections:-
+    -> Each peer connection is handled by a RTCPeerConnection object. The constructor for this class takes a single RTCConfiguration object as its parameter.
+       This object defines how the peer connection is set up and should contain information about the ICE servers to use.
+   -> the sdp negotiation i.e exchnaging offers or answers
+   -> then implement trickle ice : Once a RTCPeerConnection object is created, the underlying framework uses the provided ICE servers to gather candidates for connectivity establishment (ICE candidates).
+   -> gather ICE candidates, simply add a listener for the icecandidate event. The RTCPeerConnectionIceEvent emitted on that listener will contain candidate property that represents a new candidate that should be sent to the remote Peer
+      why do it  -> When you create a RTCPeerConnection, it tries to find ways (network paths) to connect to the other peer.
+                    These possible paths are called ICE candidates (ICE = Interactive Connectivity Establishment).
+  -> Once a RTCPeerConnection is connected to a remote peer, it is possible to stream audio and video between them. This is the point where we connect the stream we receive from getUserMedia() to the RTCPeerConnection

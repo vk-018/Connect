@@ -1,0 +1,65 @@
+.connectedContainer{
+    height: 100vh;
+    width: 100vw;
+    background-color: grey;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ /* overflow: hidden;     /* If any content sticks out beyond the element’s box, cut it off and don’t show scrollbars.” */
+
+}
+.connectedContainer > .userVideo {
+  position: absolute;
+  bottom: 3rem;
+  left:1rem;
+  /* border: 2px solid #22c55e; */
+  
+  width: 250px;
+  height: 250px;
+  aspect-ratio: 16/9;
+  /* overflow: hidden; */
+  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  /* background: #000; */
+  z-index: 10;
+}
+
+
+.connectedContainer > .userVideo > video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+.connectedContainer > .peerVideoContainer{
+    display: grid;
+    gap :5px;
+      /* Unlimited expansion in both directions */
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));     /*repeat coauses repeatition, auto fit means repeat as many columns as u can fit
+    min 80 x width and 1fr means div can grow till all remaining space occuopied*/
+
+    /*grid-auto-rows: 1fr;           /*all rows will have fixed size*/
+    width: 100%;
+    height: 100%;
+    gap: 10px;
+    background: #0f172a;
+}
+
+.connectedContainer > .peerVideoContainer >.peerVideo{
+    aspect-ratio: 16 / 9; /* modern and clean way */ 
+    max-height: 100vh;
+    width: 100%;
+    height: 100%;;
+    border: 2px solid white;
+} 
+
+.connectedContainer  .peerVideo  video{
+    
+    /* height: 100%;
+    height: calc(100% - 3em); assuming the <p> is ~2em tall */
+    width: 100%;
+    object-fit: contain;
+    border: 2px solid green;
+    
+}
