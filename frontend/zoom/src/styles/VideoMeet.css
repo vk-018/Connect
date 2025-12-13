@@ -1,65 +1,238 @@
+.previewContainer{
+  height: 100vh;    /*use min ht instead of ht to make padding effective*/
+  width: 100vw;
+  background-image: url(./preview.png);
+  background-size: 100% 100%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: sp;  */
+  align-items: center;
+  margin:0;
+  padding: 2rem;
+}
+.previewContainer .headerLine{
+  color:black;
+  font-size: 3rem;
+  font-style: italic;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+.previewContainer .middle{
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  width: 100%;
+  /* border: 2px solid brown; */
+}
+.previewContainer .middle .formBox{
+  display: flex;
+  flex-direction: column;
+  margin-right: 10%;
+  margin-top: 8%;
+  /* border: 2px solid yellowgreen; */
+  width:25%;
+}
+.previewContainer .middle .formBox .fieldBox{
+  display: flex;
+  flex-direction: column;
+  width:100%;
+  align-items: center;
+  /* border: 2px solid blue; */
+}
+.previewContainer .middle .formBox p{
+  color:#0f172a;
+  font-size: 1.75rem;
+  font-style:oblique;
+  font-weight: 500;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+.previewContainer .previewVideo{
+  width: 50%;
+  height: 80%;
+  /* border: 2px solid black; */
+  position: relative;
+  margin-left:5rem;
+  border-radius: 14px;;
+}
+.previewContainer .previewVideo .permissionBtn{
+  position: absolute;
+  top:80%;
+  left: 50%;
+  transform: translateX(-50%);    /*positioning with respect to self*/
+  display: flex;
+  z-index: 5;
+}
+.previewContainer .previewVideo video{
+  aspect-ratio: 16/9; 
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+}
 .connectedContainer{
     height: 100vh;
     width: 100vw;
-    background-color: grey;
+    background-color: #0f172a;
     position: relative;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center; 
+    margin:0;
  /* overflow: hidden;     /* If any content sticks out beyond the element’s box, cut it off and don’t show scrollbars.” */
 
 }
-.connectedContainer > .userVideo {
+.connectedContainer >  .chatBox{
+  height:calc(100vh - 5rem);
+  width: 25%;
+  background: #EAF3FF;
   position: absolute;
-  bottom: 3rem;
-  left:1rem;
-  /* border: 2px solid #22c55e; */
-  
-  width: 250px;
-  height: 250px;
-  aspect-ratio: 16/9;
-  /* overflow: hidden; */
-  box-shadow: 0 0 12px rgba(0,0,0,0.4);
-  /* background: #000; */
-  z-index: 10;
+  right: 0;
+  top:0;
+  z-index: 5;
+  border-radius: 14px;
+  padding: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  /* padding-inline: 20px; */
 }
 
+.connectedContainer > .chatBox > .positionChat{
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: #EAF3FF;
+}
+
+.connectedContainer > .chatBox > .positionChat > .peerChatContainer {
+  max-height: calc(100% - 4rem);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow-y: auto;
+}
+.connectedContainer > .chatBox > .positionChat > .peerChatContainer > .peerChat{
+  border-radius: 14px;
+  background-color: #FFFFFF;
+  padding:5px;
+  padding-top: 2.5px;
+  width: fit-content;
+}
+.connectedContainer > .chatBox > .positionChat > .peerChatContainer > .peerChat > .chatPeerName{
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0B2545;
+}
+.connectedContainer > .chatBox > .positionChat > .peerChatContainer > .peerChat > .chatPeerMessage{
+  line-height: 1.2;   /* makes text tighter */
+  color:#0B2545
+}
+.connectedContainer > .chatBox > .positionChat > .userChatContainer{
+  position: absolute;
+  bottom: 0;
+  width:100%;
+  display: flex;
+}
+.connectedContainer > .userVideo {
+  position: absolute;
+  bottom: 5rem;
+  right:0rem;
+  width: 25%;
+  aspect-ratio: 16/10; 
+  height: auto;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  z-index: 10;
+  /* overflow: hidden; */
+}
 
 .connectedContainer > .userVideo > video {
+    height:100%; 
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    display: block;
 }
 
 
 .connectedContainer > .peerVideoContainer{
     display: grid;
     gap :5px;
-      /* Unlimited expansion in both directions */
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));     /*repeat coauses repeatition, auto fit means repeat as many columns as u can fit
-    min 80 x width and 1fr means div can grow till all remaining space occuopied*/
-
-    /*grid-auto-rows: 1fr;           /*all rows will have fixed size*/
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));     /*repeat coauses repeatition, auto fit means repeat as many columns as u can fit
+    min 360 x width and 1fr means div can grow till all remaining space occuopied*/
+    grid-auto-rows: 1fr;           /*all rows will have fixed size*/
     width: 100%;
-    height: 100%;
+    height: calc(100% - 5rem);
     gap: 10px;
     background: #0f172a;
+    border-radius: 14px;
+    
 }
-
+.connectedContainer > .shareScreenContainer{
+  /* width: 100%; */
+  max-height: calc(100vh - 5rem);
+  flex: 1;
+  aspect-ratio: 16/9;
+  background-color: #0f172a;
+}
+.connectedContainer  .shareScreenContainer  video{
+  /* aspect-ratio: 16/9; */
+  height:100%; 
+  width: 100%;
+  object-fit: contain;
+  display: block;
+  /* overflow: hidden; */
+}
 .connectedContainer > .peerVideoContainer >.peerVideo{
+    /* display: flex;
+    flex-direction: column; */
     aspect-ratio: 16 / 9; /* modern and clean way */ 
-    max-height: 100vh;
+    max-height: calc(100vh - 5rem);
     width: 100%;
-    height: 100%;;
-    border: 2px solid white;
+    height: 100%;
+    border-radius: 28px;
+    position:relative;
 } 
 
 .connectedContainer  .peerVideo  video{
-    
-    /* height: 100%;
-    height: calc(100% - 3em); assuming the <p> is ~2em tall */
-    width: 100%;
-    object-fit: contain;
-    border: 2px solid green;
-    
+  position: absolute;   /* fill container */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;     /* cover recommended for tiled grid */
+  z-index: 1;
+}
+
+.peerVideo .peerName {
+    position: absolute;        /* <-- overlay */
+  top: 0;
+  left: 0;
+  width: 100%;
+  
+  padding: 6px 8px;
+  color: #fff;
+  font-weight: 600;
+  background: rgba(0,0,0,0.35);   /* translucent background */
+  backdrop-filter: blur(4px);     /* optional: glass effect */
+  z-index: 2;                     /* above video */
+  height: auto;                   /* let content decide height */
+  line-height: normal;
+}
+
+.peerVideoContainer .zeroPeer{
+  margin: auto auto auto auto;
+  font-size: larger;
+}
+
+.connectedContainer .realTimeBtn{
+  background-color: aliceblue;
+  margin-top: 0      !important;
+  width: 100%;
+  height: 5rem;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
 }

@@ -38,7 +38,7 @@ const connectToSocket = (server) => {
             //replay past chat messages for that room to the joining socket.   (update the joining socket)
             if(messages[path]!==undefined){            //ensure there is atleast 1 message in  chatroom for this path
                 for(let i=0;i<messages[path].length;i++){
-                    io.to(socket.id).emit("chat-message",messages[path][i]['data'],messages[path][i]['sender'],messages[path][i]['socket-id-sender']);
+                    io.to(socket.id).emit('chat-message',messages[path][i]['data'],messages[path][i]['sender'],messages[path][i]['socket-id-sender']);
                                     //    event name       //data                      ///sender                      //socket-id sender , we are sending this to check weather sender and current user is same -> if same increase notification number by 1                                                                                  // else keep the notifiaction number same, as our own message shd not be notified to us
                 }
             }
@@ -54,13 +54,63 @@ const connectToSocket = (server) => {
         });
 
 
+        //code for screen sharing 
+        socket.on("screen-share-started", ()=> {
+            //finding matching screen
+            var matchingRoom=null;       //   path/room where sending client is present
+            for( const [roomKey,usersConnected] of JSON.parse(JSON.stringify(Object.entries(connections)))){    //roomkey represnts the path , userConnected represnt its value that is an array
+                for(let i=0;i<usersConnected.length;i++){
+                    if(usersConnected[i].socket_id===socket.id){
+                        matchingRoom=roomKey;
+                        break;
+                    }
+                }
+            }
+            //if room not found  -> not likely
+            if(!matchingRoom){
+                return;
+            }
+            for(let i=0;i<connections[matchingRoom].length;i++){
+                // console.log(connections[matchingRoom][i]);
+                if(connections[matchingRoom][i].socket_id===socket.id){        //no need to tell urself that u disconnected
+                    continue;
+                }
+                io.to(connections[matchingRoom][i].socket_id).emit("screen-share-started",socket.id);      //send this message to everyone presnt in this room
+            } 
+        });
+
+        //msg to stop screen share
+        socket.on("screen-share-stopped", ()=> {
+            //finding matching screen
+            var matchingRoom=null;       //   path/room where sending client is present
+            for( const [roomKey,usersConnected] of JSON.parse(JSON.stringify(Object.entries(connections)))){    //roomkey represnts the path , userConnected represnt its value that is an array
+                for(let i=0;i<usersConnected.length;i++){
+                    if(usersConnected[i].socket_id===socket.id){
+                        matchingRoom=roomKey;
+                        break;
+                    }
+                }
+            }
+            //if room not found  -> not likely
+            if(!matchingRoom){
+                return;
+            }
+            for(let i=0;i<connections[matchingRoom].length;i++){
+                // console.log(connections[matchingRoom][i]);
+                if(connections[matchingRoom][i].socket_id===socket.id){        //no need to tell urself that u disconnected
+                    continue;
+                }
+                io.to(connections[matchingRoom][i].socket_id).emit("screen-share-stopped",socket.id);      //send this message to everyone presnt in this room
+            } 
+        });
+
 
         //Receives a chat message from a client and broadcasts it to other users in the same room, also storing it in messages[room].
         //# Flow : first find the room of sender, then store message, then send it to other users in that room
-        socket.on("chat message", (data,sender)=>{          //we are reciving data which the client sent and sending it to the room wehre client is present
-
+        socket.on("chat-message", (data,sender)=>{          //we are reciving data (from frontend side ) which the client sent and now we are sending it to the room wehre client is present
+            console.log("chat msg");
             var matchingRoom=null;       //   path/room where sending client is present
-            for( const [roomKey,usersConnected] of JSON.parse(JSON.stringify(Object.entries))){    //roomkey represnts the path , userConnected represnt its value that is an array
+            for( const [roomKey,usersConnected] of JSON.parse(JSON.stringify(Object.entries(connections)))){    //roomkey represnts the path , userConnected represnt its value that is an array
                 for(let i=0;i<usersConnected.length;i++){
                     if(usersConnected[i].socket_id===socket.id){
                         matchingRoom=roomKey;
@@ -80,26 +130,26 @@ const connectToSocket = (server) => {
                 }
                 messages[matchingRoom].push({'sender':sender,"data":data, "socket-id-sender":socket.id});
                 //store object  {data, sender and sender id} as an eleemnt of of array storing messages of this path/room
-                console.log("message",key ,":",sender,data);
+                console.log("message",matchingRoom ,":",sender,data);
  
 
-                for(let i=0;i<connections[matchingRoom].lenght;i++){
-                    io.to(connections[matchingRoom][i].socket_id).emit("chat message",data,sender,socket.id);
+                for(let i=0;i<connections[matchingRoom].length;i++){
+                    io.to(connections[matchingRoom][i].socket_id).emit('chat-message',data,sender,socket.id);
                 }
             }
         });
-
+        
         //Handle disconnects
         socket.on("disconnect", ()=>{
-            var connectionTime= Math.abs(timeOnline[socket.id]-new Date());         //calculate for which the user was online
-
+            console.log("disconnect requested");
+            var connectionTime= Math.abs(timeOnline[socket.id]-new Date());         //calculate the for which the user was online
             var matchingRoom;                              //key of the path/room from where user disconnected
 
             for( const [roomKey,usersConnected] of (Object.entries(connections))) {      //doing this parse and strigify to make a deep copy of connection enteries , otherwise chnages done here will reflect on the real object , we dont want that  (not needed rt now)
                 for(let i=0;i <usersConnected.length; i++){
                     if(usersConnected[i].socket_id===socket.id){           //this is the room where socket was present
                         matchingRoom=roomKey;      //we got the room key/ path
-                        console.log("yes found")
+                        //console.log("yes found")
                         break;
                     }
                 }
@@ -124,9 +174,6 @@ const connectToSocket = (server) => {
                     if(connections[matchingRoom].length===0){        //no one left in room with this key
                         delete connections[matchingRoom];           //remove this
                     }
-                
-            
-
         })
     })
     return io;

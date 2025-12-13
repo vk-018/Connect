@@ -8,7 +8,7 @@ function generateToken(user){
     const token= jwt.sign(
         {name:user.name, userName: user.userName},
         process.env.TOKEN_SECRET,
-        {expiresIn: 1000},
+        {expiresIn: 24 * 60 * 60 * 1000},
     );
     return token;
 }

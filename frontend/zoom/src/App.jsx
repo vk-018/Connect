@@ -4,6 +4,7 @@ import Landing from "./pages/Landing.jsx";
 import Authentication from './pages/Authentication.jsx';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import VideoMeetComponent from './pages/VideoMeet.jsx';
+import Home from './pages/Home.jsx';
 import MyFormComponent from './form.jsx';
 import Stopwatch from './UseRef.jsx';
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path='/auth' element={<Authentication/>}/>
           {/* using slug to create a dynamic route */}
           <Route path='/:url' element={<VideoMeetComponent/>}/>
+          <Route path='/home' element={<Home/>}/>
         </Routes>
         </AuthProvider> 
       </Router> 

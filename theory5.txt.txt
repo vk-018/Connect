@@ -1,0 +1,67 @@
+#Extra functionalities:-
+
+#Screen Share:-
+
+(i)- we will add an additional stream for screen share.
+(ii)- as new stream is being added renegotiation of sdp offer is required 
+
+2. Step 1 will be to write start screen share
+   (i)- request for permission using getDisplayMedia(video: true)
+   (ii)- store the newly obtained stream in a global variable
+   (iii)- set screen share true
+
+   (iv)- emit a message to server that screen share started
+        -> now from server side emit message under same name , and emit the socket id of sharer back to the sockets from server
+        -> now this will recieved on frontend side and it will set a state expectedScreeSHare 'true' , whcih will be used to 
+           judge weather a incoming stream is camera/screen
+   (v)- then record all the senders  (object returned by RTCConnection.addTracks), against each socket_id, which will be used later
+        to remove the senders later on
+   (vi)- store it in localScreenRef for user preview
+   (vii)-
+
+3. Step 2 will be to write Stop Screen Function:-
+  (i)- access all tracks of window.screenStream and stop it
+  (ii)- now do RTCConnection.remoteTracks(sendes) ... for all senders stored earlier
+  (iii)- emit screen share stopped for server
+  (iv)- this will remove the screen share video for videos array
+
+4. Extra part to handle for new peers
+   (i)- inseide the block new user joined
+   (ii)- attach the window.screenStream same as we added local stream earlier
+
+#IMPLEMENTING CHAT FUNCTIONALITY:-
+(i)- first apply the frontend part, for chat box
+
+1. Step 1 will be to implement messaeg sending part
+  (i)- emit the message with sender username to the server
+  (ii)- on server side, this messaeg will be recieved and the server will forward this to all the sockest with same path
+        they will recieve the data,sender name, socket id for sender
+  (iii)- now on frontend side upon recieveing the msg a fn addMessage is triggered
+  (iv)- it will push the object {sender, data, socket_id} into messages array
+        now using map fn these messages can be displayed 
+2. For newly joined Users
+   (i)- join call is triggered whenever a user joined
+   (ii)- now from backend side 'chat-message' is always gettig triggered and all the messages are being sent to tthat new user
+        so he wont miss anything
+
+#implemenmting end call:-
+1.Write Handle call fn 
+(i)- Stop both the Streams First (local and screen)
+(ii)- the close the Rtc Connection
+(iii)- then emit disconnect to the server
+      -> update the connections object on server side
+(iv)- then from server side emit user-left , upon recieveing this frontend will update videos and complete the disconnect
+
+
+
+#Write a Auth Protection Wrapper 
+(i)- Navigate: Used to redirect the user to another route.
+(ii)- Outlet: A placeholder that tells React Router where to render child routes.
+(iii)- this is how we use it
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Route>
+
+
+#Start With Home Page
+(i)- 
