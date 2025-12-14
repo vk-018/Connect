@@ -6,7 +6,8 @@ import wrapAsync from "../utilities/wrapAsync.js";
 // import jwt from "jsonwebtoken";
 // import { generateToken } from "../utilities/jwt.js";
 // import crypto from "crypto";
-import { signin,signup } from "../controllers/users.contollers.js";
+import { signin,signup,signout ,getHistoryOfUser, addtoActivity} from "../controllers/users.contollers.js";
+import { authenticateToken } from "../utilities/jwt.js";          //to protect apis where db is being modified
 const router=express.Router();
 
 router.route("/register")
@@ -17,4 +18,16 @@ router.route("/login")
     .post(wrapAsync(signin));
 
 
+    //below apis must be protcted hence the middleware
+router.route("/logout")
+    .post(authenticateToken,wrapAsync(signout));
+
+// router.get("/")
+router.route("/get_all_activity")
+   .get(authenticateToken,wrapAsync(getHistoryOfUser));
+
+router.route("/add_to_activity")
+   .post(authenticateToken, wrapAsync(addtoActivity));
+
+   
 export default router;

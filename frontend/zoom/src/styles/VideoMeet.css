@@ -166,7 +166,7 @@
     gap: 10px;
     background: #0f172a;
     border-radius: 14px;
-    
+    overflow-y: auto;
 }
 .connectedContainer > .shareScreenContainer{
   /* width: 100%; */

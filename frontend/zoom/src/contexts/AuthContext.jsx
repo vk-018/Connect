@@ -9,6 +9,11 @@ const client=axios.create({       //can bypass writting this part again and agai
     withCredentials: true  // 👈 important! send cookies automatically   , but now make change in cors too
 });
 
+/*
+axios.get(url, config) : so for get request we must use words like params. headers, passing simple objects wont be sent to backend
+axios.post(url, data, config)  : passing a simple object will be sent with req,body
+//header comes under the config part
+*/
 
 export const AuthProvider=({children}) =>{            //its a component
 
@@ -24,7 +29,7 @@ export const AuthProvider=({children}) =>{            //its a component
         });
         console.log(result);
         if(result.status===201){
-        return result.data.message;
+          return result.data.message;
         }
       }
       catch (error) {
@@ -42,7 +47,8 @@ export const AuthProvider=({children}) =>{            //its a component
         
         console.log(result.data);
         if(result.status===200){
-          localStorage.setItem("token",result.data.token);
+          localStorage.setItem("jwtoken",result.data.jwtoken);    //this is the real jwt token send this to backend to check authenticity
+          localStorage.setItem("token",result.data.token);          //this token will be user to access all the user data 
           router("/home")
           return result.data.message;
         } 
@@ -52,10 +58,74 @@ export const AuthProvider=({children}) =>{            //its a component
       }
     }
 
+    async function logout() {
+      try{
+       console.log("logging out");
+       let result=await client.post('/logout',
+        {token: localStorage.getItem("token")},         //data object
+        {         //this is the config part
+        headers: {               //header object   // will work 
+          Authorization: `Bearer ${localStorage.getItem("jwtoken")}`
+        }});
+        
+       // 2️⃣ Clear localStorage
+      localStorage.removeItem("token"); // auth flag
+      localStorage.removeItem("jwtoken"); 
+
+       // 3️⃣ Redirect & block back navigation
+      router("/", { replace: true });
+      } 
+      catch(err){
+        console.log("Unable log out", err)
+      }
+    }
+
+    const getHistoryOfUser = async () => {
+        try {
+            let request = await client.get("/get_all_activity", {
+                params: {
+                    token: localStorage.getItem("token")
+                }, 
+                headers: {               //header object   // will work 
+                 Authorization: `Bearer ${localStorage.getItem("jwtoken")}`
+                }});
+            //console.log(request);
+            //console.log(request.data);
+            return request.data
+        } 
+        catch(err) {
+            throw err;
+        }
+    }
+
+    async function addToUserHistory(meetingCode){
+     try{
+      let request= await client.post("/add_to_activity", {
+        token: localStorage.getItem("token"),
+        meetingCode: meetingCode,
+      },
+      {    //config part
+        headers: {               //header object   
+          Authorization: `Bearer ${localStorage.getItem("jwtoken")}`
+        }
+      });
+
+      console.log(request);
+      console.log(request.data);
+     }
+     catch(error){
+      console.log("Failed to add Activty",err);
+      throw error;
+     }
+    }
+
     const value={
         user,
         register,
         login,
+        logout,
+        getHistoryOfUser,
+        addToUserHistory,
     };
     return(
         <AuthContext.Provider value={value}>

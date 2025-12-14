@@ -1,17 +1,24 @@
 import React from 'react'
-
+import { useState } from 'react'
+import {  useNavigate } from 'react-router-dom';
 function Landing() {
+  let navigate= useNavigate();   //use navigate is preffered inside components  
+  const guestRandom = ()=> {
+    console.log("guest joining");
+    let random=Math.random().toString(36).slice(2,10);    //very commonly used, generate erandom number make it a string then remove '0.' using slice
+    navigate(`/meet/${random}`, {replace: true});
+  }
   return (
     <div className="landingPageContainer">
       <nav className='navbar'>
         <div className='navHeader'>
-          <h2><span style={{color:'orange'}}>Connect</span> with The World</h2>
+          <h2><span className='homeLogo' style={{color:'orange',cursor:"pointer"}}><a href="/" style={{all: "unset",display: "revert"}}>Connect</a></span> with The World</h2>
         </div>
           
         <div className="navList">
-          <a href="/joinguest"  className='anchor'>Join as Guest</a>
-          <a href="/users/register" className='anchor'>Register</a>
-          <a href="/users/login"  className='anchor'>Login</a>
+          <a onClick={guestRandom}  className='landanchor'>Join as Guest</a>
+          <a href="/auth" className='landanchor'>Register</a>
+          <a href="/auth"  className='landanchor'>Login</a>
         </div>
       </nav>
 

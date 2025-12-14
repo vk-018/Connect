@@ -335,7 +335,7 @@ async function renegotiatePeer(pc, peerId) {
 
 async function handleChat(){
   console.log("handle chat");
-  let flag=!showModel;
+  let flag= !showModel;
   setshowModel(flag);
   setnewMessages(0);
 }
@@ -351,8 +351,9 @@ async function addMessage(data,sender,socketIdSender){
             ...prevMessages,
             { sender: sender, data: data, id: socketIdSender}
         ]);
-  console.log(messages.length);
-  if (socketIdSender !== socketIdRef.current) {
+  //console.log(messages.length);
+  if ((socketIdSender !== socketIdRef.current)) {
+    console.log("hmmm",showModel);
     setnewMessages((prevNewMessages) => prevNewMessages + 1);
   }
 }
@@ -704,7 +705,7 @@ return (
           validate: (value) => value.trim() !== "" || "Enter a Valid UserName",
       })}
       error={!!errors.username}                 // <-- this triggers red border
-      helperText={errors.username?.message}     // <-- shows the message below
+      //helperText={errors.username?.message}     // <-- shows the message below
       />
       <Button type="submit" variant="contained" 
        sx={{
@@ -730,12 +731,15 @@ return (
          <video ref={localScreenRef} autoPlay muted ></video>
        </div>
         :
+        
        <div className='peerVideoContainer'
-       style={{backgroundImage: videos.length===0 ? "url(./waiting.png)": null ,
+       
+       style={{backgroundImage: videos.length===0 ? "url('../waiting.png')": null ,
                backgroundSize: videos.length===0 ? "100% 100%": null,
                maxWidth: showModel ? "75%" : null,
                alignSelf: showModel ? 'flex-start' : null,
              }}>
+              
         {videos.map((video)=>{
           return(
            <div key={video.socketId}  className='peerVideo'>

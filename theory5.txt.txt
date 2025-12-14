@@ -64,4 +64,16 @@
 
 
 #Start With Home Page
-(i)- 
+(i)- design the ui add a form box for the meeting Code
+(ii) home page will be wrapped with an auth Wrapper so that its get rendered iff user is actually logged in
+(iii)- is logged in start meeting with that code  [no backend check performed bcoz no data at risk]
+(iv)- also implement logout  as a protected api  (use cookie parser for cookie based authentication) 
+    -> we use both cookie and header as authentication methods
+(v)- apply add history and get history functionality using the tokens passed to frontend at the time of login  [both are protected routes]
+
+
+#Start With history Page:-
+(i)- implement addtohistory 
+(ii)- and getuser history thats it
+   -> in both fn apply api protection and pass token to add and retrieve data
+(iii)- show date time and meeting Code on History page

@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import 'dotenv/config';
-
+import cookieParser from 'cookie-parser';
 
 import {createServer} from "node:http";
 //we need this to connect express and sockrt instances
@@ -20,6 +20,7 @@ import userRoutes from "./routes/users.routes.js";
 
 
 const app=express();
+app.use(cookieParser());   //to handle cookies as we are using cookie absed authentication
 const port = process.env.PORT || 3000;   //defines port this way ro we can use app.set('port',3000)
 
 app.use(cors({                     //cant use allow all origin if using cookies
