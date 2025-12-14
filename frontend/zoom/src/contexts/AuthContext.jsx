@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 export const AuthContext= createContext();       //createContext through which we create a global auth context
 
 const client=axios.create({       //can bypass writting this part again and again
-    baseURL:"http://localhost:3000/api/v1/users",        //as all the routes of this context to this base only
+    baseURL:`${import.meta.env.VITE_API_URL}/api/v1/users`,        //as all the routes of this context to this base only
     withCredentials: true  // 👈 important! send cookies automatically   , but now make change in cors too
 });
 

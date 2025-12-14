@@ -77,3 +77,14 @@
 (ii)- and getuser history thats it
    -> in both fn apply api protection and pass token to add and retrieve data
 (iii)- show date time and meeting Code on History page
+
+#Deploying:-
+(i)- open render start a new web service
+(ii)- fill supposed forms
+(iii)- wite backend as src directory and then 
+(iv)- node src/app.js as run command and npm install as start command
+(v)- then set environment variables
+
+#backend deployment complete
+#now frontend
+(i)- create file environment .js

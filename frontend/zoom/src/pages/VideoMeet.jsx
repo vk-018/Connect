@@ -20,7 +20,7 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 
 
-const server_url="http://localhost:3000/";
+const server_url= import.meta.env.VITE_API_URL;
 const connections={};     //we cd have used useRef and defined it inside 
 /*
 1. RTCPeerConnection and ICE servers

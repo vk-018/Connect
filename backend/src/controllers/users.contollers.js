@@ -58,11 +58,13 @@ const signin =async function (req,res){
             //console.log("updated");
         })
         const jwtoken=generateToken(user);
+       
+        const isProd = process.env.NODE_ENV === "production";
 
         res.cookie('jwtoken', jwtoken, {      // a cookie is always a key value pair
            httpOnly: true,    // 🚫 JS can't read this
-           secure: false,      // ✅ true send only over HTTPS, for localhost it shd be false
-           sameSite: 'Strict',// prevent CSRF from other sites
+           secure: process.env.COOKIE,      // ✅ true send only over HTTPS, for localhost it shd be false
+           sameSite: isProd ? "none" : "Strict",// prevent CSRF from other sites
            maxAge: 24 * 60 * 60 * 1000 // 1 day in ms
         });
         //login via cookies is recommended , if using cookie only then no need to send token to frontend and then eventually store it to the local storage
@@ -77,10 +79,11 @@ const signin =async function (req,res){
 const signout= async function (req,res){
   try {
     // 1️⃣ Clear JWT cookie
+    const isProd = process.env.NODE_ENV === "production";
     res.clearCookie("jwtoken", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // false in localhost
-      sameSite: "Strict",
+      sameSite: isProd ? "none" : "Strict", 
     });
 
    // 2️⃣ OPTIONAL: invalidate token in DB (if stored)

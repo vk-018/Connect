@@ -24,7 +24,7 @@ app.use(cookieParser());   //to handle cookies as we are using cookie absed auth
 const port = process.env.PORT || 3000;   //defines port this way ro we can use app.set('port',3000)
 
 app.use(cors({                     //cant use allow all origin if using cookies
-  origin: "http://localhost:5173",  // React app
+  origin: process.env.CLIENT_URL,  // React app
   credentials: true,                // allow cookies and auth headers
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
