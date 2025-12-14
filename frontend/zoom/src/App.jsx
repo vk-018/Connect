@@ -7,6 +7,7 @@ import VideoMeetComponent from './pages/VideoMeet.jsx';
 import Home from './pages/Home.jsx';
 import History from './pages/History.jsx';
 import {ProtectedRoute,UnProtectedRoute} from './utils/ProtectedRoute.jsx';
+import { Navigate } from 'react-router-dom';
 
 function App() {
   
