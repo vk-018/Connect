@@ -87,4 +87,7 @@
 
 #backend deployment complete
 #now frontend
-(i)- create file environment .js
+(i)- set client api to env variable
+(ii)- set video meet jsx api to env
+(iii)- then deployment with public dir dist 
+nad build command npm install && npm build

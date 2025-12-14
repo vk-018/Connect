@@ -29,8 +29,12 @@ function App() {
             <Route path='/home' element={<Home/>}/>
             <Route path='/history' element={<History/>}/>
           </Route>
+
+          {/* 🔥 REQUIRED FOR RENDER */}
+         <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         </AuthProvider> 
+        
       </Router> 
 
       
