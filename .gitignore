@@ -1,9 +1,7 @@
-1. cluster username: abhayair18_db_user
-  cluster password: cFLpRMQ1jAZmRscr
-2. mongodb+srv://abhayair18_db_user:cFLpRMQ1jAZmRscr@cluster0.71tucim.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
 .env
 node_modules
-theory1.txt
+theory1
 theory2.txt
 theory3.txt
 theory4.txt
