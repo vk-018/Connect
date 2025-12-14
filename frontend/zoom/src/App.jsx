@@ -31,8 +31,8 @@ function App() {
             <Route path='/history' element={<History/>}/>
           </Route>
 
-          {/* 🔥 REQUIRED FOR RENDER */}
-         <Route path="*" element={<Navigate to="/" replace />} />
+          {/* 🔥 REQUIRED FOR RENDER  handling all the wide card redirects*/}
+         {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
         </Routes>
         </AuthProvider> 
         
