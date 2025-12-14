@@ -1,7 +1,7 @@
 .previewContainer{
   height: 100vh;    /*use min ht instead of ht to make padding effective*/
   width: 100vw;
-  background-image: url(./preview.png);
+  background-image: url("/preview.png");
   background-size: 100% 100%;
   display: flex;
   flex-direction: column;
