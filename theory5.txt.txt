@@ -89,5 +89,5 @@
 #now frontend
 (i)- set client api to env variable
 (ii)- set video meet jsx api to env
-(iii)- then deployment with public dir dist 
-nad build command npm install && npm build
+(iii)- then deployment with public dir dist (bcoz we are using vite)
+and build command npm install && npm build

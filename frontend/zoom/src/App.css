@@ -2,7 +2,7 @@
     
     width :100vw;
     height: 100vh;
-    background: url("./final.png");
+    background: url("/final.png");
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
@@ -99,7 +99,7 @@
 .authPageContainer{
     height: 100vh;
     width: 100vw;
-    background-image: url('./login1.png');
+    background-image: url('/login1.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     overflow: auto;
@@ -169,7 +169,7 @@
 .homePageContainer{
     width :100vw;
     height: 100vh;
-    background: url("./homePage.png");
+    background: url("/homePage.png");
     background-size: 100% 100%;
     overflow: auto; 
     position:relative;
@@ -288,7 +288,7 @@
 .historyPage{
     width :100vw;
     height: 100vh;
-    background: url("./history.jpeg");
+    background: url("/history.jpeg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
