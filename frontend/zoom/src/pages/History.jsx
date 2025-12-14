@@ -1,6 +1,7 @@
 import React from 'react'
 import { useContext,useEffect,useState } from 'react'
 import { AuthContext } from '../contexts/AuthContext.jsx'
+import { Link } from 'react-router-dom';
 
 export default function History() {
 
@@ -22,7 +23,7 @@ export default function History() {
     <div className='historyPage'>
       <nav className='historyPagenavbar'>
         <div className='homePagenavHeader'>
-          <h2 style={{color:"#7DD3FC"}}><span className='homeLogo' style={{color:'orange',cursor:"pointer"}}><a href="/" style={{all: "unset",display: "revert"}}>Connect</a></span> with The World</h2>
+          <h2 style={{color:"#7DD3FC"}}><span className='homeLogo' style={{color:'orange',cursor:"pointer"}}><Link to="/" style={{all: "unset",display: "revert"}}>Connect</Link></span> with The World</h2>
         </div>
       </nav>
 

@@ -91,3 +91,12 @@
 (ii)- set video meet jsx api to env
 (iii)- then deployment with public dir dist (bcoz we are using vite)
 and build command npm install && npm build
+
+never use anchor tags in react
+| Situation         | Use             |
+| ----------------- | --------------- |
+| `/home`, `/auth`  | `<Link>`        |
+| Navigate on click | `useNavigate()` |
+| External site     | `<a>`           |
+| Download          | `<a>`           |
+

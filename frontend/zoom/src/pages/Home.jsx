@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import errorStyles from '../utils/errorstyle.js';
 import { AuthContext } from '../contexts/AuthContext.jsx';
+import { Link } from "react-router-dom";
 
 
 
@@ -34,12 +35,12 @@ export default function Home() {
     <div className='homePageContainer'>
     <nav className='homePagenavbar'>
         <div className='homePagenavHeader'>
-          <h2 style={{color:"#7DD3FC"}}><span className='homeLogo' style={{color:'orange',cursor:"pointer"}}><a href="/" style={{all: "unset",display: "revert"}}>Connect</a></span> with The World</h2>
+          <h2 style={{color:"#7DD3FC"}}><span className='homeLogo' style={{color:'orange',cursor:"pointer"}}><Link to="/" style={{all: "unset",display: "revert"}}>Connect</Link></span> with The World</h2>
         </div>
           
         <div className="homePagenavList">
           {/* <a href="/joinguest"  className='anchor'>Join as Guest</a> */}
-          <a href="/history" className='anchor'>< HistoryRoundedIcon style={{ verticalAlign: 'middle' }}/>History</a>
+          <Link to="/history" className='anchor'>< HistoryRoundedIcon style={{ verticalAlign: 'middle' }}/>History</Link>
           <button onClick={logout} className='anchor' >Logout</button>
         </div>
       </nav>
