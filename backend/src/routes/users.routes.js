@@ -18,11 +18,13 @@ router.route("/login")
     .post(wrapAsync(signin));
 
 
-    //below apis must be protcted hence the middleware
+//logout need not to be protected
 router.route("/logout")
-    .post(authenticateToken,wrapAsync(signout));
+    .post(wrapAsync(signout));
 
-// router.get("/")
+
+//below apis must be protcted hence the middleware
+
 router.route("/get_all_activity")
    .get(authenticateToken,wrapAsync(getHistoryOfUser));
 

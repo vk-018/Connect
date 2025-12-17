@@ -53,10 +53,14 @@ const signin =async function (req,res){
     if(result){   //login successfull
         //const token=generateToken(user);   not implementing the JWT logic rt now
         //push token in user database
-        user.token=crypto.randomBytes(20).toString("hex");
-        await user.save().then(()=>{
-            //console.log("updated");
-        })
+        //catch- user may have logged in a different device then token wd already exist
+        if (Object.hasOwn(user, "token") && user.token) {
+          console.log("User already has a token:", user.token);
+        } else {
+           user.token = crypto.randomBytes(20).toString("hex");
+           await user.save();
+        }
+        
         const jwtoken=generateToken(user);
        
         const isProd = process.env.NODE_ENV === "production";
@@ -89,8 +93,12 @@ const signout= async function (req,res){
    // 2️⃣ OPTIONAL: invalidate token in DB (if stored)
     if (req.body.token) {   //check if token passed
         //console.log("removing token", req.body.token)
+
         let user= await User.findOne({token:req.body.token});
-        const updatedUser = await User.findByIdAndUpdate(user._id,{ $unset: { token: "" } },{ new: true }) // 👈 return updated data);
+        //token may exist but may be user has logged in some other device so token have changed
+        if(user){
+            const updatedUser = await User.findByIdAndUpdate(user._id,{ $unset: { token: "" } },{ new: true }) // 👈 return updated data);
+        }
 
        // console.log(updatedUser);
     }

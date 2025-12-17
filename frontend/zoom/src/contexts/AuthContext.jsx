@@ -63,10 +63,10 @@ export const AuthProvider=({children}) =>{            //its a component
        console.log("logging out");
        let result=await client.post('/logout',
         {token: localStorage.getItem("token")},         //data object
-        {         //this is the config part
-        headers: {               //header object   // will work 
-          Authorization: `Bearer ${localStorage.getItem("jwtoken")}`
-        }});
+        // {         //this is the config part
+        // headers: {               //header object   // will work 
+        //   Authorization: `Bearer ${localStorage.getItem("jwtoken")}`
+        // }});
         
        // 2️⃣ Clear localStorage
       localStorage.removeItem("token"); // auth flag
