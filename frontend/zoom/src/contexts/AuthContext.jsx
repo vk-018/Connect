@@ -66,7 +66,8 @@ export const AuthProvider=({children}) =>{            //its a component
         // {         //this is the config part
         // headers: {               //header object   // will work 
         //   Authorization: `Bearer ${localStorage.getItem("jwtoken")}`
-        // }});
+        // }}
+        );
         
        // 2️⃣ Clear localStorage
       localStorage.removeItem("token"); // auth flag
