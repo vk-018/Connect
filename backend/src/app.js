@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 
 import {createServer} from "node:http";
 //we need this to connect express and sockrt instances
-import {Server} from "socket.io";
+import {Server} from "socket.io";   //use this on socket page 
 //
 import cors from "cors";
 

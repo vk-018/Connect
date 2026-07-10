@@ -39,7 +39,7 @@ const connectToSocket = (server) => {
             if(messages[path]!==undefined){            //ensure there is atleast 1 message in  chatroom for this path
                 for(let i=0;i<messages[path].length;i++){
                     io.to(socket.id).emit('chat-message',messages[path][i]['data'],messages[path][i]['sender'],messages[path][i]['socket-id-sender']);
-                                    //    event name       //data                      ///sender                      //socket-id sender , we are sending this to check weather sender and current user is same -> if same increase notification number by 1                                                                                  // else keep the notifiaction number same, as our own message shd not be notified to us
+                                    //    event name       //data                      ///sender                      //socket-id sender , we are sending this to check weather sender and current user is same -> if not same increase notification number by 1                                                                                  // else keep the notifiaction number same, as our own message shd not be notified to us
                 }
             }
 
@@ -108,7 +108,7 @@ const connectToSocket = (server) => {
         //Receives a chat message from a client and broadcasts it to other users in the same room, also storing it in messages[room].
         //# Flow : first find the room of sender, then store message, then send it to other users in that room
         socket.on("chat-message", (data,sender)=>{          //we are reciving data (from frontend side ) which the client sent and now we are sending it to the room wehre client is present
-            console.log("chat msg");
+            ////console.log("chat msg");
             var matchingRoom=null;       //   path/room where sending client is present
             for( const [roomKey,usersConnected] of JSON.parse(JSON.stringify(Object.entries(connections)))){    //roomkey represnts the path , userConnected represnt its value that is an array
                 for(let i=0;i<usersConnected.length;i++){

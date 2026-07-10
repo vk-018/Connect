@@ -55,7 +55,7 @@ const signin =async function (req,res){
         //push token in user database
         //catch- user may have logged in a different device then token wd already exist
         if (Object.hasOwn(user, "token") && user.token) {
-          console.log("User already has a token:", user.token);
+          ////console.log("User already has a token:", user.token);
         } else {
            user.token = crypto.randomBytes(20).toString("hex");
            await user.save();
