@@ -31,7 +31,7 @@ function App() {
             <Route path='/history' element={<History/>}/>
           </Route>
 
-          {/* 🔥 REQUIRED FOR RENDER  handling all the wide card redirects*/}
+          {/* 🔥 REQUIRED FOR RENDER  handling all the wild card redirects*/}
          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
         </Routes>
         </AuthProvider> 

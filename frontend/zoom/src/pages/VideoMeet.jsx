@@ -25,7 +25,8 @@ const connections={};     //we cd have used useRef and defined it inside
 /*
 1. RTCPeerConnection and ICE servers
 
-When two browsers (or devices) want to connect directly using WebRTC, they need to find the best possible route between each other over the internet — even if both are behind NATs or firewalls.
+When two browsers (or devices) want to connect directly using WebRTC, they need to find the best possible route between each other over the internet 
+— even if both are behind NATs or firewalls.
 That’s where ICE (Interactive Connectivity Establishment) comes in.
 It uses ICE servers — specifically STUN and TURN servers — to help peers discover and establish a direct connection.
 
@@ -76,9 +77,10 @@ export default function VideoMeetComponent() {
   let [userName,setuserName]=useState("");
 
   const videoRef=useRef([]);      //to handle async nature of usestate   (will store videos of all the remote peers)
-  const screenSenderMap = useRef({});       // { peerId: [RTCRtpSender, ...] } to remove senders later....bcoz peers will keep on expecting media and show a black screen even after screenStream is stopped , sender removal is necessary
+  const screenSenderMap = useRef({});       // { peerId: [RTCRtpSender, ...] } to remove senders later....bcoz peers will keep on expecting media 
+  //                                         and show a black screen even after screenStream is stopped , sender removal is necessary
   const expectedScreenFrom = useRef({});    // marks that a peer is expected to send a screen (used by ontrack)
-
+//Updates to useRef happen instantly and synchronously, while useState updates are asynchronous and trigger re-renders.
 
   //form validation handling
    const {register,handleSubmit,formState}=useForm();
@@ -170,11 +172,7 @@ async function startLocalStream(vidavl,audavl){
       }
   }
 }
-  
-async function getUserMediaSuccess(){       //fns responsible for updating peers abt latest video or audio status
-   //no more needed i guess, bcoz when we use track.enabled webRTC internally updates the peers abt this and sends a black screnn in case of videos aooff
-   //and it sends silence in case of audio off
-}
+
 
 function toggleMedia(type){                 //cd have use effect for audio and video state and just chnage the state by btn click
     //no need to check video avl or not bcoz bcoz respective btns wont be enabled if video / audio not enabled
@@ -445,7 +443,7 @@ function connectToSocketServer(username){
       
       //retrieving socket id
       socketIdRef.current= socketRef.current.id;
-      console.log(socketRef.current.id);
+      ////console.log(socketRef.current.id);
       //responding to socket.on 'join-call'   (in backend)
       socketRef.current.emit('join-call',window.location.href,username);              //pass the current path,and username
 
@@ -464,10 +462,13 @@ then attempts to add window.screenStream tracks (if present),
 then (if newUserId === mySocket) creates offers from the new peer to all existing connections
       */
       socketRef.current.on("user-joined",async (newUserId,clients,)=>{        //clients is the array which consists object of socket_id and username of all the users from having same path(using same link) where new user joined
-        
+        //the signalling process is symmetrivc, both peers shd create rtc peer connection object and send ice candidates
         clients.forEach(({socket_id,username})=>{   
           
           if(socket_id===socketIdRef.current){       //no connection needed for itself
+            return;
+          }
+          if(connections[socket_id]){  //connection already exists with this peer   -> this enforces that we preapre connection only for new peer
             return;
           }
           //connections[socket_id] now represents the WebRTC connection between you(current socket) and that peer.

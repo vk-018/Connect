@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 const ProtectedRoute = () => {   // this is a wrapper for protected components-> it decides weather page is allowed to render or not
    const isAuthenticated = () => {
             if(localStorage.getItem("jwtoken")) {
-                console.log("authenticated",localStorage.getItem("jwtoken"));
+                //console.log("authenticated",localStorage.getItem("jwtoken"));
                 return true;
             } 
             return false;
@@ -13,13 +13,13 @@ const ProtectedRoute = () => {   // this is a wrapper for protected components->
           return <Navigate to="/auth" replace />;      //Navigate works better than UseNavigate for protected Routes
         }
 
-    return <Outlet />;
+    return <Outlet />;          //<Outlet /> renders the nested route
 };
 
 const UnProtectedRoute = () => {   // this is a wrapper for unprotected components-> it decides weather page is allowed to render or not
    const isAuthenticated = () => {
             if(localStorage.getItem("jwtoken")) {
-                console.log("authenticated",localStorage.getItem("jwtoken"));
+                //console.log("authenticated",localStorage.getItem("jwtoken"));
                 return true;
             } 
             return false;
@@ -29,7 +29,7 @@ const UnProtectedRoute = () => {   // this is a wrapper for unprotected componen
           return <Navigate to="/home" replace />;      //Navigate works better than UseNavigate for protected Routes
         }
 
-    return <Outlet />;
+    return <Outlet />;    //<Outlet /> renders the nested route
 };
 
 //write route to avoid rendering of a page if user is already logged in 
